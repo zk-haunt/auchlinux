@@ -1,0 +1,85 @@
+configuration {
+    show-icons: false;
+    matching: "normal";
+    sorting-method: "normal";
+    cycle: true;
+}
+
+@import "~/.config/rofi/colors/colors-matugen.rasi"
+
+* {
+    font: "JetBrainsMono Nerd Font Propo 32";
+    background-soft: #1f232cff;
+    danger: #e06c75ff;
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    fullscreen: true;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+mainbox {
+    padding: 0px;
+    spacing: 0px;
+    margin: 35% 10%;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+/* Invisible-but-functional input — lets you type to filter (l→Lock, s→Shutdown,
+   log→Logout, su→Suspend) while keeping the icon-row look unchanged. */
+inputbar {
+    enabled: true;
+    font: "JetBrainsMono Nerd Font 1";
+    padding: 0px;
+    margin: 0px;
+    spacing: 0px;
+    background-color: transparent;
+    text-color: transparent;
+    children: [ "entry" ];
+}
+
+entry {
+    enabled: true;
+    font: "JetBrainsMono Nerd Font 1";
+    padding: 0px;
+    margin: 0px;
+    background-color: transparent;
+    text-color: transparent;
+    cursor: text;
+    placeholder: "";
+}
+
+listview {
+    lines: 1;
+    columns: 5;
+    fixed-height: true;
+    dynamic: true;
+    scrollbar: false;
+    spacing: 30px;
+    background-color: transparent;
+}
+
+element {
+    padding: 60px 0px;
+    border-radius: 20px;
+    background-color: rgba(255, 255, 255, 0.1);
+    text-color: rgba(255, 255, 255, 0.8);
+    cursor: pointer;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color: @background;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+    horizontal-align: 0.5;
+    vertical-align: 0.5;
+    cursor: pointer;
+}

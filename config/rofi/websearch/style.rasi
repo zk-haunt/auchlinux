@@ -1,0 +1,77 @@
+configuration {
+    show-icons: false;
+    matching: "normal";
+    sorting-method: "normal";
+    cycle: true;
+    display-websearch: "🔍";
+}
+
+@import "~/.config/rofi/colors/colors-matugen.rasi"
+
+* {
+    font: "JetBrainsMono Nerd Font Propo 10";
+    background-soft: #1f232cff;
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    width: 600px;
+    border-radius: 10px;
+    background-color: @background;
+}
+
+mainbox {
+    padding: 16px;
+    spacing: 10px;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: @background-alt;
+    text-color: @foreground;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    padding: 0px 8px 0px 0px;
+    background-color: transparent;
+    text-color: @selected;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @foreground;
+    placeholder: "Search Web...";
+}
+
+listview {
+    lines: 5;
+    columns: 1;
+    fixed-height: false;
+    dynamic: true;
+    scrollbar: false;
+    spacing: 6px;
+    background-color: transparent;
+}
+
+element {
+    padding: 11px 12px;
+    border-radius: 8px;
+    background-color: transparent;
+    text-color: @foreground;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color: @background;
+}
+
+element-text {
+    background-color: transparent;
+    text-color: inherit;
+}

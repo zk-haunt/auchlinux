@@ -1,0 +1,19 @@
+[config]
+reload_apps = false
+set_wallpaper = false
+
+[templates.hyprland]
+input_path = "~/.config/matugen/templates/colors-hyprland.lua"
+output_path = "~/.config/hypr/hyprland/colors.lua"
+
+[templates.kitty]
+input_path = "~/.config/matugen/templates/colors-kitty.conf"
+output_path = "~/.config/kitty/color.conf"
+
+[templates.waybar]
+input_path = "~/.config/matugen/templates/colors-waybar.css"
+output_path = "~/.config/waybar/colors.css"
+
+[templates.rofi]
+input_path = "~/.config/matugen/templates/colors-matugen.rasi"
+output_path = "~/.config/rofi/colors/colors-matugen.rasi"

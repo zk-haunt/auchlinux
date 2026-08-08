@@ -1,0 +1,88 @@
+// Rofi STYLE picker grid — mirrors the wallpaper picker
+// (~/.config/rofi/wallpaper/style.rasi): centered window, search bar on top,
+// 3-column grid of rounded thumbnails, accent selection. Text label is hidden
+// because each tile already carries its name (text tile for our themes) or is a
+// recognisable screenshot (lol themes).
+configuration {
+    show-icons: true;
+    matching: "normal";
+    sorting-method: "normal";
+    cycle: true;
+}
+
+@import "~/.config/rofi/colors/colors-matugen.rasi"
+
+* {
+    font: "JetBrainsMono Nerd Font Propo 10";
+    background-soft: #1f232cff;
+}
+
+window {
+    transparency: "real";
+    location: center;
+    anchor: center;
+    width: 760px;
+    border-radius: 10px;
+    background-color: @background;
+}
+
+mainbox {
+    padding: 16px;
+    spacing: 10px;
+    background-color: transparent;
+    children: [ "inputbar", "listview" ];
+}
+
+inputbar {
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: @background-alt;
+    text-color: @foreground;
+    children: [ "prompt", "entry" ];
+}
+
+prompt {
+    padding: 0px 8px 0px 0px;
+    background-color: transparent;
+    text-color: @selected;
+}
+
+entry {
+    background-color: transparent;
+    text-color: @foreground;
+    placeholder: "Search styles...";
+}
+
+listview {
+    lines: 3;
+    columns: 3;
+    fixed-height: false;
+    dynamic: true;
+    scrollbar: false;
+    spacing: 12px;
+    background-color: transparent;
+}
+
+element {
+    padding: 12px;
+    border-radius: 8px;
+    background-color: transparent;
+    text-color: @foreground;
+    spacing: 8px;
+    orientation: vertical;
+}
+
+element selected.normal {
+    background-color: @selected;
+    text-color: @background;
+}
+
+element-text {
+    enabled: false;
+}
+
+element-icon {
+    size: 160px;
+    border-radius: 6px;
+    background-color: transparent;
+}

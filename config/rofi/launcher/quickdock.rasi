@@ -1,0 +1,56 @@
+/**
+ * Cursor-anchored quick-apps dock — a single horizontal row of app icons.
+ * Sizing (width / columns) and on-screen position are injected at runtime by
+ * quickapps.sh via -theme-str, so this file only defines the look.
+ */
+
+@import "~/.config/rofi/launcher/shared/colors.rasi"
+
+* {
+    font: "JetBrainsMono Nerd Font 10";
+}
+
+window {
+    background-color: transparent;
+    border:           0;
+    padding:          0;
+    /* width + location + anchor come from -theme-str (cursor position) */
+}
+
+mainbox {
+    background-color: @background;
+    border:           2px;
+    border-color:     @selected;
+    border-radius:    18px;
+    padding:          12px;
+    children:         [ "listview" ];
+}
+
+listview {
+    background-color: transparent;
+    spacing:          10px;
+    cycle:            true;
+    scrollbar:        false;
+    fixed-height:     true;
+}
+
+element {
+    background-color: transparent;
+    padding:          10px;
+    border-radius:    14px;
+    cursor:           pointer;
+}
+
+element selected {
+    background-color: @selected;
+}
+
+element-icon {
+    size:             46px;
+    background-color: transparent;
+    cursor:           pointer;
+}
+
+element-text {
+    enabled: false;
+}

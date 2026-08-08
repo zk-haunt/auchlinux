@@ -1,0 +1,9 @@
+/* Waybar dynamic colors */
+@define-color primary #89b4fa;
+@define-color secondary #a6bbda;
+@define-color background-dark rgba(0, 0, 0, 0.5);
+@define-color background-light rgba(0, 0, 0, 0.3);
+@define-color background-medium rgba(0, 0, 0, 0.4);
+@define-color text #e8eaed;
+@define-color text-muted #7f849c;
+@define-color highlight #f5e0dc;

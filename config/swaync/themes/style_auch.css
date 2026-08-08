@@ -1,0 +1,95 @@
+* {
+  font-family: 'JetBrainsMono Nerd Font', sans-serif;
+}
+
+.notification-row {
+  outline: none;
+}
+
+.notification-row:focus,
+.notification-row:hover {
+  background: transparent;
+}
+
+.notification {
+  border-radius: 8px;
+  margin: 6px 12px;
+  box-shadow: inset 0 -2px #a6bbda;
+  background: rgba(20, 20, 30, 0.85);
+  color: #e8eaed;
+  padding: 10px;
+}
+
+.notification-content {
+  margin: 6px;
+}
+
+.notification-default-image {
+  border-radius: 8px;
+}
+
+.control-center {
+  background: rgba(10, 10, 15, 0.9);
+  border-radius: 12px;
+  box-shadow: inset 0 -2px #a6bbda, 0 4px 16px rgba(0, 0, 0, 0.5);
+  color: #e8eaed;
+  margin: 10px;
+  padding: 10px;
+}
+
+.control-center-list {
+  background: transparent;
+}
+
+.widget-title {
+  color: #e8eaed;
+  font-size: 1.2rem;
+  margin: 10px;
+}
+
+.widget-title > button {
+  background: rgba(255, 255, 255, 0.1);
+  color: #e8eaed;
+  border-radius: 8px;
+  padding: 4px 12px;
+  border: none;
+}
+
+.widget-title > button:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.widget-dnd {
+  margin: 10px;
+  color: #e8eaed;
+}
+
+.widget-dnd > switch {
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.widget-dnd > switch:checked {
+  background: #89b4fa;
+}
+
+.widget-mpris {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+  padding: 10px;
+  margin: 10px;
+}
+
+.widget-mpris-player {
+  padding: 5px;
+  margin: 5px;
+}
+
+.widget-mpris-title {
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+
+.widget-mpris-subtitle {
+  font-size: 0.9rem;
+}

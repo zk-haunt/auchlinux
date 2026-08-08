@@ -1,0 +1,13 @@
+// Weather module — kept in its own file and pulled into any theme via
+// "include". The module body lives here so theme configs stay clean.
+{
+    "custom/weather": {
+        "exec": "$HOME/.config/waybar/scripts/weather.sh json",
+        "return-type": "json",
+        "interval": 900,
+        "format": "{}",
+        "tooltip": true,
+        "on-click": "$HOME/.config/waybar/scripts/weather.sh json", // refresh
+        "on-click-right": "xdg-open https://wttr.in"
+    }
+}

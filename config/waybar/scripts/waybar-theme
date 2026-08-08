@@ -1,0 +1,127 @@
+#!/bin/bash
+theme_dir="$HOME/auchlinux/config/waybar/themes"
+mode_file="$theme_dir/waybar_theme_mode"
+
+# Read current mode
+current_mode="auch"
+if [[ -f "$mode_file" ]]; then
+    current_mode=$(cat "$mode_file")
+fi
+
+# Find available themes directly from auchlinux
+all_themes=()
+if [[ -d "$theme_dir" ]]; then
+    for file in "$theme_dir"/config_*.jsonc; do
+        if [[ -f "$file" ]]; then
+            name=$(basename "$file" | sed -E 's/^config_(.*)\.jsonc$/\1/')
+            all_themes+=("$name")
+        fi
+    done
+fi
+
+# Function to print layout list
+print_list() {
+    echo "Waybar Theme Switcher"
+    echo "-----------------------"
+    echo "Current active layout: $current_mode"
+    echo ""
+    echo "Available layouts:"
+    
+    local i=0
+    for theme in "${all_themes[@]}"; do
+        marker="  "
+        if [[ "$theme" == "$current_mode" ]]; then
+            marker="* "
+            theme="$theme (active)"
+        fi
+        echo "$marker $i. $theme"
+        ((i++))
+    done
+    
+    echo ""
+    echo "Usage:"
+    echo "  waybar-theme <number or name>  (Set specific theme)"
+    echo "  waybar-theme next              (Cycle to next theme)"
+    echo "  waybar-theme prev              (Cycle to previous theme)"
+    echo "  waybar-theme status            (Show current theme)"
+}
+
+if [[ -z "$1" ]] || [[ "$1" == "list" ]]; then
+    print_list
+    exit 0
+elif [[ "$1" == "status" ]]; then
+    echo "$current_mode"
+    exit 0
+elif [[ "$1" == "next" ]] || [[ "$1" == "cycle" ]]; then
+    idx=-1
+    for i in "${!all_themes[@]}"; do
+        if [[ "${all_themes[$i]}" == "$current_mode" ]]; then
+            idx=$i
+            break
+        fi
+    done
+    idx=$(( (idx + 1) % ${#all_themes[@]} ))
+    target_theme="${all_themes[$idx]}"
+elif [[ "$1" == "prev" ]]; then
+    idx=-1
+    for i in "${!all_themes[@]}"; do
+        if [[ "${all_themes[$i]}" == "$current_mode" ]]; then
+            idx=$i
+            break
+        fi
+    done
+    idx=$(( (idx - 1 + ${#all_themes[@]}) % ${#all_themes[@]} ))
+    target_theme="${all_themes[$idx]}"
+else
+    query="$1"
+    if [[ "$query" =~ ^[0-9]+$ ]]; then
+        arr_idx=$((query))
+        if [[ -n "${all_themes[$arr_idx]}" ]]; then
+            target_theme="${all_themes[$arr_idx]}"
+        fi
+    else
+        for theme in "${all_themes[@]}"; do
+            if [[ "$theme" == "$query" ]]; then
+                target_theme="$theme"
+                break
+            fi
+        done
+    fi
+fi
+
+if [[ -z "$target_theme" ]]; then
+    echo "Error: Theme '$1' not found."
+    exit 1
+fi
+
+# Save mode
+echo "$target_theme" > "$mode_file"
+echo "Setting layout to: $target_theme"
+
+# Apply symlinks directly from auchlinux to avoid hyde-shell
+rm -f "$HOME/.config/waybar/config.jsonc"
+rm -f "$HOME/.config/waybar/style.css"
+rm -f "$HOME/.config/waybar/theme.css"
+
+ln -sf "$theme_dir/config_$target_theme.jsonc" "$HOME/.config/waybar/config.jsonc"
+ln -sf "$theme_dir/style_$target_theme.css" "$HOME/.config/waybar/style.css"
+# Symlink static theme.css if it exists in auchlinux
+if [[ -f "$theme_dir/theme.css" ]]; then
+    ln -sf "$theme_dir/theme.css" "$HOME/.config/waybar/theme.css"
+fi
+
+# Also apply SwayNC theme if it exists
+if [[ -f "$HOME/auchlinux/config/swaync/themes/style_$target_theme.css" ]]; then
+    ln -sf "$HOME/auchlinux/config/swaync/themes/style_$target_theme.css" "$HOME/.config/swaync/style.css"
+    swaync-client -rs
+fi
+
+# Restart waybar natively
+if [[ -x "$HOME/.config/hypr/scripts/restart-waybar.sh" ]]; then
+    "$HOME/.config/hypr/scripts/restart-waybar.sh" >/dev/null 2>&1
+else
+    killall -q waybar
+    waybar >/dev/null 2>&1 &
+fi
+
+echo "✓ Switched Waybar layout natively to: $target_theme"

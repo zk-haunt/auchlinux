@@ -1,0 +1,695 @@
+@import "colors.css";
+
+* {
+    font-family: 'JetBrainsMono Nerd Font', 'Radio Canada Big', sans-serif;
+    font-size: 10px;
+    font-weight: bold;
+    /* border-radius: 4px; */
+}
+
+window#waybar {
+    background-color: transparent;
+    color: @text;
+    /* mix-blend-mode: difference; */
+    background-color: rgba(0, 0, 0, 0.1);
+    transition-property: background-color;
+    transition-duration: .5s;
+    border-radius: 10px;
+}
+
+window#waybar.hidden {
+    opacity: 0.2;
+}
+
+button {
+    /* Use box-shadow instead of border so the text isn't offset */
+    box-shadow: inset 0 -2px transparent;
+    /* Avoid rounded borders under each button name */
+    border: none;
+    border-radius: 0;
+}
+
+/* https://github.com/Alexays/Waybar/wiki/FAQ#the-workspace-buttons-have-a-strange-hover-effect */
+button:hover {
+    background: inherit;
+    box-shadow: inset 0 -2px @text;
+}
+
+#workspaces {
+    transition: all 1s ease-in-out;
+}
+
+#workspaces button {
+    border-radius: 5px;
+    margin: 0 4px;
+    padding: 0 5px;
+    background-color: transparent;
+    background: @background-dark;
+    border-radius: 20px;
+    transition: all 200ms ease-in-out;
+    color: @text-muted;
+}
+
+#workspaces button:not(.empty) {
+    /* A soft highlight color for workspaces with apps */
+    color: @highlight; 
+    background: @background-dark;
+    /* Add a small blue underline for occupied ones */
+    box-shadow: inset 0 -2px @primary; 
+}
+
+/* Empty workspaces (no apps): white number + a much thinner, subtle border */
+#workspaces button.empty {
+    color: #ffffff;
+    box-shadow: inset 0 -2px rgba(255, 255, 255, 0.25);
+}
+
+#workspaces button:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: @text;
+    border-radius: 20px;
+}
+
+#workspaces button.active {
+    /* No solid fill, no extra width — differentiate with a slightly lifted bg
+       and a 1px-thicker accent underline than occupied (border method). */
+    color: @text;
+    background: @background-light;
+    box-shadow: inset 0 -4px @primary;
+}
+
+#battery,
+#temperature,
+#pulseaudio,
+#backlight,
+#network,
+#custom-vpn,
+#wireplumber,
+#custom-media,
+#custom-nightlight,
+#custom-screenrecord,
+#tray,
+#mode,
+#hyprland-window,
+#scratchpad,
+#power-profiles-daemon,
+#window {
+    margin: 0 4px;
+    padding: 0 13px;
+    color: @text;
+    border-radius: 8px;
+    box-shadow: inset 0 -2px @secondary;
+
+}
+
+#custom-cava {
+    font-family: 'JetBrainsMono Nerd Font', 'JetBrainsMono NF', monospace;
+    font-size: 10px;
+    font-weight: normal;
+    background: @background-medium;
+    color: @primary;
+    margin: 0 4px;
+    padding: 0 10px;
+    border-radius: 8px;
+    box-shadow: inset 0 -2px @secondary;
+}
+
+/* If workspaces is the leftmost module, omit left margin */
+.modules-left>widget:first-child>#workspaces {
+    margin-left: 0;
+}
+
+/* If workspaces is the rightmost module, omit right margin */
+.modules-right>widget:last-child>#workspaces {
+    margin-right: 0;
+}
+
+.clock-group,
+#clock-group {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    box-shadow: inset 0 -2px #a6bbda;
+    margin: 0 4px;
+    padding: 0 10px;
+}
+
+/* Right status pill (volume / mic / temp / network) — same pill look as our
+   other groups; inner modules transparent so they read as one cohesive pill. */
+.status-pill,
+#status-pill {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    box-shadow: inset 0 -2px #a6bbda;
+    margin: 0 4px;
+    padding: 0 10px;
+}
+
+#status-pill #pulseaudio,
+#status-pill #temperature,
+#status-pill #network,
+#status-pill #custom-vpn {
+    background: transparent;
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0 7px;
+}
+
+/* keep temp's heat colors readable on the flat pill (no chip bg) */
+#status-pill #temperature.warning {
+    color: #ffb766;
+    background: transparent;
+}
+#status-pill #temperature.critical {
+    color: #eb4d4b;
+    background: transparent;
+}
+
+/* Right power pill (nightlight / power-profiles / battery) — same pill look
+   with the shared under-border accent; inner modules transparent. */
+.power-pill,
+#power-pill {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    box-shadow: inset 0 -2px #a6bbda;
+    margin: 0 4px;
+    padding: 0 10px;
+}
+
+#power-pill #custom-nightlight,
+#power-pill #power-profiles-daemon,
+#power-pill #battery {
+    background: transparent;
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    margin: 0;
+    padding: 0 7px;
+}
+
+/* profile colors still apply inside the pill (text-colored, no chip bg) */
+#power-pill #power-profiles-daemon.balanced {
+    background: transparent;
+    background-color: transparent;
+    color: #2ecc71;
+}
+#power-pill #power-profiles-daemon.power-saver {
+    background: transparent;
+    background-color: transparent;
+    color: #f9e2af;
+}
+#power-pill #power-profiles-daemon.performance {
+    background: transparent;
+    background-color: transparent;
+    color: #e8eaed;
+}
+
+.clock-group #clock,
+#clock-group #clock {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.clock-group #custom-cava,
+#clock-group #custom-cava {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.sys-group,
+#sys-group {
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 8px;
+    box-shadow: inset 0 -2px #a6bbda;
+    margin: 0 4px;
+    padding: 0 10px;
+}
+
+.sys-group #cpu,
+#sys-group #cpu {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0 4px;
+}
+
+.sys-group #memory,
+#sys-group #memory {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0 4px;
+}
+
+.sys-group #custom-cputemp,
+#sys-group #custom-cputemp {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0 4px;
+}
+
+/* 5°C-bucket gradient, identical thresholds/colors to lol's cpuinfo.css */
+#custom-cputemp.temp-0,
+#custom-cputemp.temp-5,
+#custom-cputemp.temp-10 {
+    color: #4169e1;
+}
+
+#custom-cputemp.temp-15,
+#custom-cputemp.temp-20 {
+    color: #4682b4;
+}
+
+#custom-cputemp.temp-25,
+#custom-cputemp.temp-30,
+#custom-cputemp.temp-35 {
+    color: #87ceeb;
+}
+
+#custom-cputemp.temp-60 {
+    color: #ffa500;
+}
+
+#custom-cputemp.temp-65 {
+    color: #ff8c00;
+}
+
+#custom-cputemp.temp-70 {
+    color: #ff6347;
+}
+
+#custom-cputemp.temp-75 {
+    color: #ff471a;
+}
+
+#custom-cputemp.temp-80 {
+    color: #d22f2f;
+}
+
+#custom-cputemp.temp-85 {
+    color: #ad1f2f;
+}
+
+#custom-cputemp.temp-90,
+#custom-cputemp.temp-95,
+#custom-cputemp.temp-100 {
+    color: #8b0000;
+}
+
+#custom-cputemp.hidden {
+    margin: 0;
+    padding: 0;
+}
+
+.sys-group #custom-gputemp,
+#sys-group #custom-gputemp {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0 4px;
+}
+
+/* 5°C-bucket gradient, identical thresholds/colors to lol's gpuinfo.css */
+#custom-gputemp.temp-0,
+#custom-gputemp.temp-5,
+#custom-gputemp.temp-10 {
+    color: #4169e1;
+}
+
+#custom-gputemp.temp-15,
+#custom-gputemp.temp-20 {
+    color: #4682b4;
+}
+
+#custom-gputemp.temp-25,
+#custom-gputemp.temp-30,
+#custom-gputemp.temp-35 {
+    color: #87ceeb;
+}
+
+#custom-gputemp.temp-60 {
+    color: #ffa500;
+}
+
+#custom-gputemp.temp-65 {
+    color: #ff8c00;
+}
+
+#custom-gputemp.temp-70 {
+    color: #ff6347;
+}
+
+#custom-gputemp.temp-75 {
+    color: #ff471a;
+}
+
+#custom-gputemp.temp-80 {
+    color: #d22f2f;
+}
+
+#custom-gputemp.temp-85 {
+    color: #ad1f2f;
+}
+
+#custom-gputemp.temp-90,
+#custom-gputemp.temp-95,
+#custom-gputemp.temp-100 {
+    color: #8b0000;
+}
+
+#custom-gputemp.hidden {
+    margin: 0;
+    padding: 0;
+}
+
+
+#battery {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#custom-nightlight {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#power-profiles-daemon {
+    padding-right: 15px;
+}
+
+#power-profiles-daemon.performance {
+    background: transparent;
+    background-color: transparent;
+    box-shadow: none;
+    color: #e8eaed;
+}
+
+#power-profiles-daemon.balanced {
+    background-color: #2ecc71;
+    color: #000000;
+}
+
+#power-profiles-daemon.power-saver {
+    background-color: #f9e2af;
+    color: #000000;
+}
+
+#pulseaudio {
+    background: rgba(0, 0, 0, 0.4);
+    color: #e8eaed;
+}
+
+#pulseaudio.muted {
+    background-color: #90b1b1;
+    color: #2a5c45;
+}
+
+#temperature {
+    /* background-color: #323d49; */
+    background: rgba(0, 0, 0, 0.4);
+    color: #e8eaed;
+}
+
+#temperature.warning {
+    background-color: #ffb766;
+    color: #000000;
+}
+
+#temperature.critical {
+    background-color: #eb4d4b;
+}
+
+#hyprland-window {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+
+
+#network {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#network.disconnected {
+    background-color: #eb4d4b;
+}
+
+#custom-vpn {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#status-pill #custom-vpn.connected {
+    color: #a6e3a1;
+}
+
+/* off is the normal resting state -- dim, not alarming */
+#status-pill #custom-vpn.disconnected {
+    color: rgba(232, 234, 237, 0.45);
+}
+
+#backlight {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#custom-media {
+    background-color: #66cc99;
+    color: #2a5c45;
+    min-width: 100px;
+}
+
+#tray {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+#mpd {
+    padding: 0 15px;
+    color: #e8eaed;
+    margin: 0 2px;
+    box-shadow: inset 0 -2px #e8eaed;
+    border-radius: 5px;
+}
+
+#mode {
+    background-color: #64727D;
+    box-shadow: inset 0 -2px #ffffff;
+}
+
+/* background-color: #64727D; */
+/* background-color: #323d49; */
+/* border-radius: 2px; */
+
+
+/* 
+#battery.charging, #battery.plugged {
+    color: #ffffff;
+    background-color: #26A65B;
+}
+
+Using steps() instead of linear as a timing function to limit cpu usage 
+#battery.critical:not(.charging) {
+    background-color: #f53c3c;
+    color: #ffffff;
+    animation-name: blink;
+    animation-duration: 0.5s;
+    animation-timing-function: steps(12);
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+}
+
+@keyframes blink {
+    to {
+        background-color: #ffffff;
+        color: #000000;
+    }
+}
+
+label:focus {
+    background-color: #000000;
+}
+
+#wireplumber {
+    background-color: #fff0f5;
+    color: #000000;
+}
+
+#wireplumber.muted {
+    background-color: #f53c3c;
+}
+
+#custom-media.custom-spotify {
+    background-color: #66cc99;
+}
+
+#custom-media.custom-vlc {
+    background-color: #ffa000;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#tray > .needs-attention {
+    -gtk-icon-effect: highlight;
+    background-color: #eb4d4b;
+}
+
+.clock-group #idle_inhibitor,
+#clock-group #idle_inhibitor,
+.clock-group #custom-notification,
+#clock-group #custom-notification,
+.clock-group #custom-updates,
+#clock-group #custom-updates {
+    background-color: transparent;
+    background-image: none;
+    border-radius: 0;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    margin: 0;
+    padding: 0;
+}
+
+.clock-group #idle_inhibitor.activated,
+#clock-group #idle_inhibitor.activated {
+    background-color: transparent;
+    background-image: none;
+    box-shadow: none;
+    box-shadow: inset 0 0 transparent;
+    color: #a6e3a1;
+}
+
+#mpd {
+    background-color: #66cc99;
+    color: #2a5c45;
+}
+
+#mpd.disconnected {
+    background-color: #f53c3c;
+}
+
+#mpd.stopped {
+    background-color: #90b1b1;
+}
+
+#mpd.paused {
+    background-color: #51a37a;
+}
+
+#scratchpad {
+    background: rgba(0, 0, 0, 0.2);
+}
+
+#scratchpad.empty {
+	background-color: transparent;
+}
+
+#privacy {
+    padding: 0;
+}
+
+#privacy-item {
+    padding: 0 5px;
+    color: white;
+}
+
+#privacy-item.screenshare {
+    background-color: #cf5700;
+}
+
+#privacy-item.audio-in {
+    background-color: #1ca000;
+}
+
+#privacy-item.audio-out {
+    background-color: #0069d4;
+} */
+
+#custom-screenrecord {
+    background: rgba(235, 77, 75, 0.3);
+    color: #ff5252;
+    animation: pulse-recording 1.5s infinite alternate;
+}
+
+@keyframes pulse-recording {
+    from {
+        box-shadow: inset 0 -2px #ff5252;
+        background: rgba(235, 77, 75, 0.25);
+    }
+    to {
+        box-shadow: inset 0 -2px #ff5252, 0 0 8px rgba(255, 82, 82, 0.6);
+        background: rgba(235, 77, 75, 0.55);
+    }
+}
+
+/* ── Style polish (round 2) ───────────────────────────────────── */
+
+/* #5 Dim + italicize the window title so it recedes behind active modules */
+#window {
+    opacity: 0.72;
+    font-style: italic;
+}
+
+/* #6 Hover feedback on clickable modules */
+#cpu:hover,
+#memory:hover,
+#pulseaudio:hover,
+#network:hover,
+#custom-vpn:hover,
+#temperature:hover,
+#backlight:hover,
+#custom-updates:hover,
+#power-profiles-daemon:hover,
+#custom-nightlight:hover,
+#battery:hover,
+#idle_inhibitor:hover,
+#clock:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-radius: 6px;
+    transition: background-color 200ms ease;
+}
+
+/* #7 Battery color states (inside the power pill, text-colored) */
+#power-pill #battery.warning {
+    color: #ffb766;
+}
+#power-pill #battery.critical:not(.charging) {
+    color: #eb4d4b;
+}
+#power-pill #battery.charging,
+#power-pill #battery.plugged {
+    color: #2ecc71;
+}
+
+/* Solid tooltip background — required since the waybar blur layerrule would
+   otherwise blur GTK's semi-transparent default tooltip into invisibility. */
+tooltip {
+    background-color: @background-dark;
+    border: 1px solid @primary;
+    border-radius: 8px;
+}
+tooltip label {
+    color: @text;
+    padding: 2px 4px;
+}

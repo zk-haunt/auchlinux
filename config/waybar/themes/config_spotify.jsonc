@@ -1,0 +1,370 @@
+{
+    "layer": "top", // Waybar at top layer
+    "position": "top",
+    "margin-top": 10,
+    "margin-left": 10,
+    "margin-right": 10,
+    "spacing": 4,
+    "modules-left": [
+        "group/sys-group",
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "group/spotify",
+        "group/clock-group"
+    ],
+    "modules-right": [
+        "group/status-pill",
+        "tray",
+        "group/power-pill"
+    ],
+    "group/power-pill": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/nightlight",
+            "power-profiles-daemon",
+            "battery"
+        ]
+    },
+    "group/spotify": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/spotify-prev",
+            "custom/spotify-playpause",
+            "custom/spotify-next",
+            "custom/spotify"
+        ]
+    },
+    "custom/spotify": {
+        "exec": "$HOME/.config/waybar/scripts/spotify-status.py",
+        "return-type": "json",
+        "interval": 2,
+        "max-length": 45,
+        "tooltip": true,
+        "on-click": "playerctl --player=spotify play-pause",
+        "on-scroll-up": "playerctl --player=spotify next",
+        "on-scroll-down": "playerctl --player=spotify previous"
+    },
+    "custom/spotify-prev": {
+        "format": "󰒮",
+        "tooltip": false,
+        "on-click": "playerctl --player=spotify previous"
+    },
+    "custom/spotify-playpause": {
+        "format": "󰐎",
+        "tooltip": false,
+        "on-click": "playerctl --player=spotify play-pause"
+    },
+    "custom/spotify-next": {
+        "format": "󰒭",
+        "tooltip": false,
+        "on-click": "playerctl --player=spotify next"
+    },
+    "custom/cava": {
+        "exec": "python3 $HOME/.config/waybar/scripts/cava.py waybar --json",
+        "format": "{}",
+        "return-type": "json",
+        "hide-empty-text": true,
+        "restart-interval": 1,
+        "on-click": "pkill -f 'cava.py waybar'"
+    },
+    "custom/screenrecord": {
+        "exec": "pgrep -x wf-recorder >/dev/null && echo '{\"text\":\"󰻂\",\"class\":\"recording\",\"tooltip\":\"Screen Recording Active\"}' || echo '{\"text\":\"\",\"class\":\"\",\"tooltip\":\"\"}'",
+        "interval": 2,
+        "signal": 9,
+        "return-type": "json",
+        "hide-empty-text": true,
+        "on-click": "pkill -INT -x wf-recorder"
+    },
+    "cava": {
+        "framerate": 30,
+        "autosens": 1,
+        "bars": 5,
+        "lower_cutoff_freq": 50,
+        "higher_cutoff_freq": 10000,
+        "method": "pipewire",
+        "source": "auto",
+        "stereo": true,
+        "reverse": false,
+        "bar_delimiter": 0,
+        "monstercat": false,
+        "waves": false,
+        "noise_reduction": 0.77,
+        "input_delay": 2,
+        "format-icons": [
+            " ",
+            "▂",
+            "▃",
+            "▄",
+            "▅",
+            "▆",
+            "▇",
+            "█"
+        ],
+        "actions": {
+            "on-click-right": "mode"
+        }
+    },
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": {
+            "*": 3
+        }
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 50,
+        "separate-outputs": true,
+        "offscreen-css": true,
+        "offscreen-css-text": "(inactive)"
+    },
+    "group/sys-group": {
+        "orientation": "horizontal",
+        "modules": [
+            "cpu",
+            "memory",
+            "custom/cputemp",
+            "custom/gputemp"
+        ]
+    },
+    "group/clock-group": {
+        "orientation": "horizontal",
+        "modules": [
+            "custom/cava",
+            "idle_inhibitor",
+            "clock",
+            "custom/notification",
+            "custom/updates"
+        ]
+    },
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%A, %B %d, %Y}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>",
+        "calendar": {
+            "mode": "month",
+            "mode-mon-col": 3,
+            "week-pos": "right",
+            "on-scroll": 1,
+            "format": {
+                "months": "<span color='#89b4fa'><b>{}</b></span>",
+                "today": "<span color='#a6e3a1'><b>{}</b></span>",
+                "weeks": "<span color='#b4befe'><b>{}</b></span>"
+            }
+        }
+    },
+    "idle_inhibitor": {
+        "format": "{icon}  ",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰛊"
+        },
+        "tooltip": true,
+        "tooltip-format-activated": "<span foreground='#a6e3a1'>󰅶 Caffeine Mode Active</span>\nPrevents system from going to sleep",
+        "tooltip-format-deactivated": "<span foreground='#f38ba8'>󰛊 Caffeine Mode Inactive</span>\nSystem will follow normal power settings"
+    },
+    "custom/notification": {
+        "tooltip": false,
+        "format": " <span color='#666666'>|</span> {icon} ",
+        "format-icons": {
+            "notification": "<span color='#f38ba8'><sup></sup></span>",
+            "none": "",
+            "dnd-notification": "<span color='#f38ba8'><sup></sup></span>",
+            "dnd-none": "",
+            "inhibited-notification": "<span color='#f38ba8'><sup></sup></span>",
+            "inhibited-none": "",
+            "dnd-inhibited-notification": "<span color='#f38ba8'><sup></sup></span>",
+            "dnd-inhibited-none": ""
+        },
+        "return-type": "json",
+        "exec-if": "which swaync-client",
+        "exec": "swaync-client -swb",
+        "on-click": "swaync-client -t -sw",
+        "on-click-right": "swaync-client -d -sw",
+        "escape": true
+    },
+    "custom/updates": {
+        "exec": "~/.config/hypr/scripts/update-checker.sh --status",
+        "return-type": "json",
+        "interval": 300,
+        "on-click": "~/.config/hypr/scripts/update-checker.sh",
+        "tooltip": true,
+        "format": " <span color='#666666'>|</span> {}"
+    },
+    "memory": {
+        "states": {
+            "c": 90,
+            "h": 60,
+            "m": 30
+        },
+        "format": "<span color='#a6bbda'>󰾆</span> {used}GB",
+        "format-m": "󰾅 {used}GB",
+        "format-h": "󰓅 {used}GB",
+        "format-c": " {used}GB",
+        "format-alt": "<span color='#a6bbda'>󰾆</span> {percentage}%",
+        "tooltip": true,
+        "tooltip-format": "󰾆 Memory usage: {percentage}%\n Used: {used:0.2f}GB / {total:0.2f}GB\n Available: {avail:0.2f}GB\n Swap used: {swapUsed:0.2f}GB / {swapTotal:0.2f}GB ({swapPercentage}%)",
+        "on-click": "kitty -e btop"
+    },
+    "custom/cputemp": {
+        "exec": "$HOME/.config/waybar/scripts/cpu-temp.sh",
+        "return-type": "json",
+        "interval": 5,
+        "tooltip": true,
+        "on-click": "kitty -e btop"
+    },
+    "custom/gputemp": {
+        "exec": "$HOME/.config/waybar/scripts/gpu-temp.sh",
+        "return-type": "json",
+        "interval": 5,
+        "tooltip": true,
+        "on-click": "kitty -e btop"
+    },
+    "cpu": {
+        "format": "<span color='#a6bbda'>󰍛</span> {usage}%",
+        "tooltip": true,
+        "tooltip-format": "CPU Usage: {usage}%\nLoad Average: {load}",
+        "on-click": "kitty -e btop"
+    },
+    "network": {
+        "tooltip": true,
+        "format-wifi": "<span color='#a6bbda'></span> {essid}",
+        "format-ethernet": "󰈀 ",
+        "tooltip-format": "Network: <big><b>{essid}</b></big>\nSignal strength: <b>{signaldBm}dBm ({signalStrength}%)</b>\nFrequency: <b>{frequency}MHz</b>\nInterface: <b>{ifname}</b>\nIP: <b>{ipaddr}/{cidr}</b>\nGateway: <b>{gwaddr}</b>",
+        "format-linked": "󰈀 {ifname} (No IP)",
+        "format-disconnected": "󰖪 ",
+        "tooltip-format-disconnected": "Disconnected",
+        "format-alt": "<span foreground='#99ffdd'> {bandwidthDownBytes}</span> <span foreground='#ffcc66'> {bandwidthUpBytes}</span>",
+        "interval": 2
+    },
+    "custom/vpn": {
+        "exec": "$HOME/.config/waybar/scripts/vpn.sh",
+        "return-type": "json",
+        "interval": 5,
+        "signal": 10,
+        "format": "{}",
+        "hide-empty-text": true,
+        "on-click": "$HOME/.config/waybar/scripts/vpn.sh toggle"
+    },
+    "group/status-pill": {
+        "orientation": "horizontal",
+        "modules": [
+            "pulseaudio",
+            "pulseaudio#microphone",
+            "temperature",
+            "network",
+            "custom/vpn"
+        ]
+    },
+    "pulseaudio#microphone": {
+        "format": "{format_source}",
+        "format-source": "",
+        "format-source-muted": "",
+        "on-click": "pavucontrol-qt -t 4 || pavucontrol -t 4",
+        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SOURCE@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SOURCE@ 5%-",
+        "tooltip-format": "{format_source} {source_desc} // {source_volume}%",
+        "scroll-step": 5
+    },
+    "custom/media": {
+        "format": "{icon} {text}",
+        "return-type": "json",
+        "max-length": 40,
+        "format-icons": {
+            "spotify": "",
+            "default": "🎜"
+        },
+        "escape": true,
+        "exec": "$HOME/.config/waybar/scripts/mediaplayer.py 2> /dev/null" // Script in resources folder
+        // "exec": "$HOME/.config/waybar/scripts/mediaplayer.py --player spotify 2> /dev/null" // Filter player based on name
+    },
+    "pulseaudio": {
+        "format": "<span color='#a6bbda'>{icon}</span> {volume}",
+        "format-muted": "婢",
+        "on-click": "pavucontrol-qt -t 3 || pavucontrol -t 3",
+        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip-format": "{icon} {desc} // {volume}%",
+        "scroll-step": 5,
+        "format-icons": {
+            "headphone": "",
+            "hands-free": "",
+            "headset": "",
+            "phone": "",
+            "portable": "",
+            "car": "",
+            "default": [
+                "",
+                "",
+                ""
+            ]
+        }
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["❄","°","▲"]
+    },
+    "tray": {
+        "icon-size": 13,
+        "spacing": 4
+    },
+    "battery": {
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{capacity}% {icon}",
+        "format-full": "{capacity}% {icon}",
+        "format-charging": "{capacity}% ",
+        "format-plugged": "{capacity}% ",
+        "format-alt": "{time} {icon}",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "power-profiles-daemon": {
+        "format": "{icon}",
+        "tooltip-format": "Power profile: {profile}\nDriver: {driver}",
+        "tooltip": true,
+        "format-icons": {
+            "default": "",
+            "performance": "",
+            "balanced": "",
+            "power-saver": ""
+        }
+    },
+    "custom/nightlight": {
+        "format": "{}",
+        "return-type": "json",
+        "exec": "~/.config/hypr/scripts/nightlight.sh status",
+        "on-click": "~/.config/hypr/scripts/nightlight.sh toggle",
+        "signal": 8,
+        "interval": 5
+    },
+    "wlr/taskbar": {
+        "format": "{icon}",
+        "icon-size": 20,
+        "tooltip-format": "{title}",
+        "on-click": "activate",
+        "on-click-middle": "close",
+        "ignore-list": [
+            "kitty",
+            "rofi"
+        ],
+        "app_ids-mapping": {
+            "firefoxdeveloperedition": "firefox-developer-edition",
+            "org.keepassxc.KeePassXC": "keepassxc"
+        }
+    }
+}

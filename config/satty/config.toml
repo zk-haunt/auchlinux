@@ -1,0 +1,26 @@
+# Satty annotation tool — dark config for the lol-style screenshot flow.
+[general]
+fullscreen = false
+early-exit = false
+initial-tool = "brush"
+copy-command = "wl-copy"
+annotation-size-factor = 1
+primary-highlighter = "block"
+disable-notifications = false
+
+[font]
+family = "JetBrainsMono Nerd Font"
+style = "Regular"
+
+[color-palette]
+# first entry is the default fill/stroke colour — our accent
+palette = [
+    "#a6bbda",
+    "#f38ba8",
+    "#a6e3a1",
+    "#f9e2af",
+    "#89b4fa",
+    "#cba6f7",
+    "#94e2d5",
+    "#ffffff",
+]

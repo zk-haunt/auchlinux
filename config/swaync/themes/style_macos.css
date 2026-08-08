@@ -1,0 +1,193 @@
+/* Glassmorphism & macOS inspired theme for SwayNC */
+
+* {
+  font-family: 'SF Pro Display', 'Inter', 'JetBrainsMono Nerd Font', sans-serif;
+  transition: all 0.2s ease-in-out;
+}
+
+/* Container window */
+.control-center {
+  background: rgba(30, 30, 40, 0.55);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  box-shadow: 0 10px 40px 0 rgba(0, 0, 0, 0.5), inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+  color: #f5f5f7;
+  margin: 12px;
+  padding: 16px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.control-center-list {
+  background: transparent;
+  padding: 8px;
+}
+
+/* Individual notification cards */
+.notification {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  margin: 8px 4px;
+  padding: 12px 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.notification:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+}
+
+.notification-content {
+  margin: 4px;
+}
+
+.notification-default-image {
+  border-radius: 12px;
+  margin-right: 12px;
+}
+
+.notification-title {
+  font-weight: 600;
+  font-size: 1.05rem;
+  color: #ffffff;
+}
+
+.notification-body {
+  color: #e5e5ea;
+  font-size: 0.92rem;
+}
+
+.notification-action {
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  color: #ffffff;
+  padding: 8px;
+  margin-top: 8px;
+  font-weight: 500;
+}
+
+.notification-action:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Header title widget */
+.widget-title {
+  color: #ffffff;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 12px 6px;
+}
+
+.widget-title > button {
+  background: rgba(255, 59, 48, 0.2);
+  color: #ff453a;
+  border: 1px solid rgba(255, 59, 48, 0.3);
+  border-radius: 14px;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.widget-title > button:hover {
+  background: rgba(255, 59, 48, 0.35);
+  color: #ffffff;
+  box-shadow: 0 0 8px rgba(255, 59, 48, 0.4);
+}
+
+/* Do Not Disturb (DND) widget */
+.widget-dnd {
+  margin: 12px 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: #f5f5f7;
+}
+
+.widget-dnd > switch {
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  padding: 2px;
+}
+
+.widget-dnd > switch:checked {
+  background: #30d158; /* Apple green */
+  box-shadow: 0 0 8px rgba(48, 209, 88, 0.4);
+}
+
+.widget-dnd > switch slider {
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* MPRIS Media Player Widget */
+.widget-mpris {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 18px;
+  padding: 14px;
+  margin: 12px 6px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.widget-mpris-player {
+  padding: 4px;
+}
+
+.widget-mpris-title {
+  font-weight: 700;
+  font-size: 1.15rem;
+  color: #ffffff;
+}
+
+.widget-mpris-subtitle {
+  font-size: 0.9rem;
+  color: #aeaeb2;
+  margin-bottom: 8px;
+}
+
+.widget-mpris-controls {
+  margin-top: 10px;
+}
+
+.widget-mpris-controls > button {
+  background: rgba(255, 255, 255, 0.08);
+  border: none;
+  border-radius: 50%;
+  color: #ffffff;
+  padding: 10px;
+  margin: 0 6px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.widget-mpris-controls > button:hover {
+  background: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Buttons widget (control panel shortcuts) */
+.widget-buttons {
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 20px;
+  padding: 8px;
+  margin: 12px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.widget-buttons > button {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 14px;
+  color: #f5f5f7;
+  padding: 10px;
+  font-weight: 500;
+}
+
+.widget-buttons > button:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: #ffffff;
+}

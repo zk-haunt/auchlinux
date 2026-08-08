@@ -1,0 +1,16 @@
+// "auch + weather" bar — a NEW theme that does NOT edit config_auch.jsonc.
+// It `include`s the whole auch config (pulls every setting + module definition)
+// and only overrides modules-right to inject the weather module on the bar.
+// Switch to it with:  waybar-theme auchweather
+{
+    "include": [
+        "~/.config/waybar/themes/config_auch.jsonc",
+        "~/.config/waybar/weather.jsonc"
+    ],
+    "modules-right": [
+        "custom/weather",
+        "group/status-pill",
+        "tray",
+        "group/power-pill"
+    ]
+}

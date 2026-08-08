@@ -1,0 +1,29 @@
+# Minimalist End4-style prompt configuration for Starship
+
+add_newline = false
+
+format = """
+$directory$git_branch$git_status
+$character """
+
+[directory]
+style = "bold cyan"
+truncate_to_repo = true
+truncation_length = 3
+format = "[$path]($style) "
+
+[git_branch]
+style = "bold purple"
+symbol = " "
+format = "on [$symbol$branch]($style) "
+
+[git_status]
+style = "bold red"
+ahead = "⇡"
+behind = "⇣"
+diverged = "⇕"
+format = "[$all_status$ahead_behind]($style) "
+
+[character]
+success_symbol = "[❯](bold green)"
+error_symbol = "[❯](bold red)"

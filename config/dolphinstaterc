@@ -1,0 +1,17 @@
+[Open-with settings]
+CompletionMode=1
+History=code
+
+[SettingsDialog]
+2560x1080 screen: Window-Maximized=true
+
+[State]
+1500x1000 screen: Window-Maximized=true
+1600x900 screen: Window-Maximized=true
+1920x1080 screen: Window-Maximized=true
+2 screens: Window-Maximized=true
+2560x1080 screen: Window-Maximized=true
+3 screens: Height=768
+3 screens: Width=1366
+3 screens: Window-Maximized=true
+State=AAAA/wAAAAD9AAAAAwAAAAAAAACTAAAD4PwCAAAAAfsAAAAWAGYAbwBsAGQAZQByAHMARABvAGMAawAAAAAA/////wAAAAAA////AAAAAQAAAKgAAAQQ/AIAAAAC+wAAABQAcABsAGEAYwBlAHMARABvAGMAawEAAAAAAAABhgAAAEEA////+wAAABAAaQBuAGYAbwBEAG8AYwBrAQAAAY0AAAKDAAAA3wD///8AAAADAAAHWgAAABz8AQAAAAH7AAAAGAB0AGUAcgBtAGkAbgBhAGwARABvAGMAawAAAAAAAAAHWgAAAAAA////AAAGqwAABBAAAAAEAAAABAAAAAgAAAAI/AAAAAEAAAABAAAAAQAAABYAbQBhAGkAbgBUAG8AbwBsAEIAYQByAwAAAAD/////AAAAAAAAAAA=

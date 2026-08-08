@@ -1,0 +1,180 @@
+# Arch Install Scripts
+
+Minimal **automated Arch Linux installation scripts** using `curl | bash`.
+
+> [!WARNING]
+> These scripts will **erase your selected disk** and configure partitions, **LUKS**, and **systemd-boot**.
+> Use only if you understand what the script does. **Test in a VM first.**
+
+---
+
+## ✅ What this installs
+
+- Base system (**Zen kernel only**, or **Linux + Zen**)
+- Basic **LUKS encryption**
+- **systemd + systemd-boot** essential setup
+- Networking + user creation + sudo setup
+
+---
+
+## 📦 Available installer
+
+### 1) Run installer directly (Zen/Stable/Both selection is interactive)
+```bash
+curl -fsSL "https://raw.githubusercontent.com/zk-haunt/auchlinux/main/install.sh?$(date +%s)" | bash
+```
+
+### Or edit and run locally
+
+```bash
+curl -fsSL "https://raw.githubusercontent.com/zk-haunt/auchlinux/main/install.sh" -o install.sh
+chmod +x install.sh
+./install.sh
+```
+
+---
+
+## 🚀 After install.sh — the desktop
+
+`install.sh` gives you a bootable base system and nothing else: no Hyprland, no
+bar, no login screen. These steps build the actual desktop. Run them in order.
+
+### 2) Reboot and clone the repo
+
+```bash
+git clone https://github.com/zk-haunt/auchlinux.git ~/auchlinux
+```
+
+### 3) Dev toolchains — run this *before* install-packages
+
+```bash
+cd ~/auchlinux && ./scripts/dev-utils.sh
+./scripts/dev-utils.sh --status       # show what's present, change nothing
+```
+
+Installs, in this order: **Rust** (`rustup` from pacman, then
+`rustup default stable`), **Go** (pacman), then **Node LTS + npm** via
+[nvm](https://github.com/nvm-sh/nvm).
+
+> [!IMPORTANT]
+> **Order matters — do this before `install-packages.sh`.** That script builds
+> `paru` from source, and paru's PKGBUILD declares `makedepends=('cargo')`. With
+> no Rust present, `makepkg` resolves `cargo` by installing the **`rust`**
+> package — which then conflicts with `rustup` when you install it later, since
+> both provide `rustc`/`cargo`. Installing `rustup` first satisfies `cargo` up
+> front and the conflict never arises.
+
+Arch ships **one** package, `rustup`, providing `rustc`/`cargo`/`rustup` — there
+is no separate `rust` package to add. It also ships with *no* toolchain
+selected, so `cargo` exists but errors until `rustup default stable` runs; this
+script does that for you.
+
+Shell wiring lives in `config/zsh/conf.d/50-dev.zsh`, repo-tracked and deployed
+by `apply-config.sh`. nvm is **lazy-loaded** there: `.zshenv` sources every
+`conf.d/*.zsh` on *every* zsh invocation, and sourcing `nvm.sh` eagerly costs
+~200 ms per shell. The first `node`/`npm` call in a shell pays that instead.
+
+Skip this step entirely if you don't write code on the machine — but then let
+`makepkg` pull whatever it wants for the paru build.
+
+### 4) Packages + configs
+
+```bash
+cd ~/auchlinux && ./install-packages.sh
+```
+
+> [!IMPORTANT]
+> **`cd` into the repo first.** This script calls `./scripts/apply-config.sh`
+> and reads `./scripts/assets/` through **relative** paths. Run it as
+> `~/auchlinux/install-packages.sh` from somewhere else and those steps are
+> skipped **silently** — you get packages but no configs, and Hyprland comes up
+> broken with no hint why.
+
+This installs every package and then runs `apply-config.sh` for you, which
+deploys `config/` into `~/.config/`. You do **not** need to run apply-config
+separately.
+
+### 5) Shell, fonts, prompt
+
+```bash
+./scripts/term-n-font.sh
+```
+
+zsh + `ZDOTDIR` + oh-my-zsh + starship + Nerd Fonts. It runs `apply-config.sh`
+again internally for `zsh`, `starship`, and `kitty`.
+
+### 6) Login manager
+
+```bash
+./scripts/manage-sddm.sh
+```
+
+SDDM is **not** handled by `install-packages.sh`. Without this there's no
+graphical login — you'd start Hyprland by hand from a TTY.
+
+### 7) Reboot into Hyprland
+
+### 8) First-run theming — required, nothing does it for you
+
+The theme files in `~/.config/` are **symlinks that don't exist until you pick a
+theme once**. `apply-config.sh` deliberately skips them (they're state, not
+content), so on a fresh install the bar is simply missing. Press these:
+
+| Keybind | Picks |
+|---|---|
+| `Super + Shift + B` | **Waybar theme** — without this there is no bar at all |
+| `Super + Shift + W` | Wallpaper — **put images here first**, see below |
+| `Super + Shift + R` (or `Super + Shift + D`) | Rofi theme |
+| `Super + Shift + T` | GTK theme |
+
+**Wallpapers are not shipped with this repo.** The picker reads from:
+
+```
+~/Pictures/wallpapers/
+```
+
+Create it and drop images in before pressing `Super + Shift + W`, or the menu
+comes up empty:
+
+```bash
+mkdir -p ~/Pictures/wallpapers
+```
+
+- Formats: `.jpg` `.jpeg` `.png` `.webp` `.bmp` `.gif`
+- Subfolders work — it scans two levels deep (`wallpapers/anime/foo.png` is fine)
+- Picking one runs **matugen**, which regenerates the accent colours for waybar,
+  rofi, GTK, and kitty from that image. So the wallpaper drives the whole
+  palette — it isn't only a background.
+
+Re-running `apply-config.sh` by hand is only needed after you edit something in
+`config/`:
+
+```bash
+./scripts/apply-config.sh              # everything
+./scripts/apply-config.sh hypr waybar  # just these
+```
+
+---
+
+## 🧩 Optional setups
+
+Independent of each other, run whenever — after the steps above.
+
+| Script | What it sets up |
+|---|---|
+| [`scripts/harden-dns-firewall.sh`](scripts/harden-dns-firewall.sh) | Encrypted DNS (DoT + DNSSEC) and the nftables firewall. See [`dns-firewall.md`](dns-firewall.md). |
+| [`scripts/virt/virt-manager.sh`](scripts/virt/virt-manager.sh) | QEMU/KVM + virt-manager. `virt/kvm.sh` then builds throwaway VMs. |
+| [`scripts/steam/steam.sh`](scripts/steam/steam.sh) | Steam + Vulkan GPU drivers. |
+| [`scripts/zen/deploy-zen-config.sh`](scripts/zen/deploy-zen-config.sh) | Zen Browser userChrome CSS + prefs. Extensions stay manual. |
+| [`scripts/easyeffects/easyeffects.sh`](scripts/easyeffects/easyeffects.sh) | EasyEffects audio EQ + presets. |
+| [`scripts/vpn/vpn.sh`](scripts/vpn/README.md) | WireGuard VPN + waybar indicator. |
+| [`scripts/vtube/vtube.sh`](scripts/vtube/README.md) | VTube face-tracking pipeline. |
+
+> [!NOTE]
+> **Firewall + VMs + LocalSend.** `harden-dns-firewall.sh` installs the *base*
+> ruleset (`config/etc/nftables.conf`), which is default-drop inbound. It has no
+> allowances for libvirt guests or LocalSend, so VMs get no DHCP lease and
+> LocalSend transfers never arrive. For those, install
+> `config/etc/nftables.virt-localsend.conf` over `/etc/nftables.conf` instead.
+> Note also that `systemctl restart nftables` flushes libvirt's own tables —
+> follow it with `sudo virsh net-destroy default && sudo virsh net-start default`.

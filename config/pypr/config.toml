@@ -1,0 +1,12 @@
+[pyprland]
+plugins = [ "scratchpads" ]
+
+[pyprland.variables]
+term_with_class = "kitty --class"
+
+[scratchpads.console]
+animation = "fromTop"
+class     = "console-dropdown"
+command   = "[term_with_class] console-dropdown"
+max_size  = "90% 100%"
+size      = "75% 60%"

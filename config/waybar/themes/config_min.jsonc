@@ -1,0 +1,104 @@
+{
+    // ── auch "min" — a self-contained minimal bar ────────────────────────── //
+    "layer": "top",
+    "position": "top",
+    "margin-top": 6,
+    "margin-left": 0,
+    "margin-right": 8,
+    "spacing": 6,
+
+    "modules-left": [
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "idle_inhibitor",
+        "clock"
+    ],
+    "modules-right": [
+        "memory",
+        "temperature",
+        "network",
+        "pulseaudio",
+        "battery",
+        "tray"
+    ],
+
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-click": "activate",
+        "sort-by-number": true,
+        "persistent-workspaces": { "*": 2 }
+    },
+
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 48,
+        "separate-outputs": true
+    },
+
+    "idle_inhibitor": {
+        "format": "{icon}",
+        "format-icons": {
+            "activated": "󰅶",
+            "deactivated": "󰛊"
+        },
+        "tooltip-format-activated": "Caffeine: on",
+        "tooltip-format-deactivated": "Caffeine: off"
+    },
+
+    "clock": {
+        "format": "{:%H:%M}",
+        "format-alt": "{:%a %d %b}",
+        "tooltip-format": "<tt><small>{calendar}</small></tt>"
+    },
+
+    "memory": {
+        "format": "󰾆 {percentage}%",
+        "tooltip-format": "RAM {used:0.1f}G / {total:0.1f}G",
+        "on-click": "kitty -e btop"
+    },
+
+    "temperature": {
+        "critical-threshold": 80,
+        "format": "{temperatureC}°C {icon}",
+        "format-icons": ["❄","°","▲"]
+    },
+
+    "network": {
+        "format-wifi": " {essid}",
+        "format-ethernet": "󰈀 wired",
+        "format-linked": "󰈀 {ifname}",
+        "format-disconnected": "󰖪 off",
+        "tooltip-format": "{essid}  {signalStrength}%\n{ipaddr}/{cidr}",
+        "tooltip-format-disconnected": "Disconnected",
+        "format-alt": " {bandwidthDownBytes}  {bandwidthUpBytes}",
+        "interval": 5
+    },
+
+    "pulseaudio": {
+        "format": "{icon} {volume}%",
+        "format-muted": "󰝟",
+        "format-icons": { "default": ["󰕿", "󰖀", "󰕾"] },
+        "on-click": "pavucontrol-qt -t 3 || pavucontrol -t 3",
+        "on-click-middle": "wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle",
+        "on-scroll-up": "wpctl set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+",
+        "on-scroll-down": "wpctl set-volume @DEFAULT_AUDIO_SINK@ 5%-",
+        "tooltip-format": "{desc} — {volume}%",
+        "scroll-step": 5
+    },
+
+    "battery": {
+        "states": { "warning": 30, "critical": 15 },
+        "format": "{icon} {capacity}%",
+        "format-charging": "󰂄 {capacity}%",
+        "format-plugged": "󰚥 {capacity}%",
+        "format-icons": ["󰂎", "󰁺", "󰁼", "󰁾", "󰂀", "󰂂", "󰁹"],
+        "tooltip-format": "{timeTo}"
+    },
+
+    "tray": {
+        "icon-size": 13,
+        "spacing": 6
+    }
+}

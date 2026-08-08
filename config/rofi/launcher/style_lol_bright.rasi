@@ -1,0 +1,169 @@
+/**
+ * Cyberpunk Glassmorphism Theme (lol)
+ * Translucent, glowing cyan/purple borders, side mode-switcher
+ **/
+
+configuration {
+    modi:                       "drun,run,filebrowser,ssh,window";
+    show-icons:                 true;
+    display-drun:               " Apps";
+    display-run:                " Run";
+    display-filebrowser:        " Files";
+    display-window:             " Windows";
+    display-ssh:                " SSH";
+    drun-display-format:        "{name}";
+    window-format:              "{w} · {c} · {t}";
+}
+
+@theme "~/.config/rofi/theme.rasi"
+
+window {
+    transparency:                "real";
+    location:                    center;
+    anchor:                      center;
+    fullscreen:                  false;
+    width:                       750px;
+    height:                      520px;
+    x-offset:                    0px;
+    y-offset:                    0px;
+    enabled:                     true;
+    margin:                      0px;
+    padding:                     0px;
+    border:                      2px solid;
+    border-radius:               12px;
+    border-color:                @border-colour;
+    cursor:                      "default";
+    background-color:            @background-colour;
+}
+
+mainbox {
+    enabled:                     true;
+    spacing:                     12px;
+    margin:                      0px;
+    padding:                     20px;
+    border:                      0px solid;
+    background-color:            transparent;
+    children:                    [ "inputbar", "custombox" ];
+}
+
+custombox {
+    spacing:                     10px;
+    background-color:            transparent;
+    orientation:                 horizontal;
+    children:                    [ "mode-switcher", "listview" ];
+}
+
+inputbar {
+    enabled:                     true;
+    spacing:                     10px;
+    margin:                      0px;
+    padding:                     10px 14px;
+    border:                      1px solid;
+    border-radius:               8px;
+    border-color:                rgba(255, 255, 255, 0.1);
+    background-color:            @alternate-background;
+    text-color:                  @foreground-colour;
+    children:                    [ "textbox-prompt-colon", "entry" ];
+}
+
+textbox-prompt-colon {
+    enabled:                     true;
+    expand:                      false;
+    str:                         "";
+    background-color:            transparent;
+    text-color:                  #89b4faff;
+    vertical-align:              0.5;
+}
+
+entry {
+    enabled:                     true;
+    background-color:            transparent;
+    text-color:                  inherit;
+    cursor:                      text;
+    placeholder:                 "Search applications...";
+    placeholder-color:           #6c7086ff;
+    vertical-align:              0.5;
+}
+
+listview {
+    enabled:                     true;
+    columns:                     1;
+    lines:                       6;
+    cycle:                       true;
+    dynamic:                     true;
+    scrollbar:                   false;
+    layout:                      vertical;
+    reverse:                     false;
+    fixed-height:                true;
+    fixed-columns:               true;
+    spacing:                     6px;
+    margin:                      0px;
+    padding:                     5px;
+    border:                      0px;
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+    cursor:                      "default";
+}
+
+element {
+    enabled:                     true;
+    spacing:                     12px;
+    margin:                      0px;
+    padding:                     8px 12px;
+    border:                      0px;
+    border-radius:               8px;
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+    cursor:                      pointer;
+}
+
+element normal.normal {
+    background-color:            transparent;
+    text-color:                  @foreground-colour;
+}
+
+element selected.normal {
+    background-color:            @selected-normal-background;
+    text-color:                  @selected-normal-foreground;
+}
+
+element-icon {
+    background-color:            transparent;
+    text-color:                  inherit;
+    size:                        28px;
+    cursor:                      inherit;
+}
+
+element-text {
+    background-color:            transparent;
+    text-color:                  inherit;
+    vertical-align:              0.5;
+}
+
+mode-switcher {
+    enabled:                     true;
+    expand:                      false;
+    orientation:                 vertical;
+    spacing:                     8px;
+    margin:                      0px;
+    padding:                     0px;
+    background-color:            transparent;
+}
+
+button {
+    padding:                     15px 12px;
+    border:                      1px solid;
+    border-radius:               8px;
+    border-color:                rgba(255, 255, 255, 0.05);
+    background-color:            @alternate-background;
+    text-color:                  @foreground-colour;
+    cursor:                      pointer;
+    vertical-align:              0.5;
+    horizontal-align:            0.5;
+}
+
+button selected {
+    border-color:                @border-colour;
+    background-color:            @selected-normal-background;
+    text-color:                  @selected-normal-foreground;
+}
